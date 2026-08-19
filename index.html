@@ -4,7 +4,6 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#fbf8f3">
-  <meta name="theme-color" content="#fbf8f3">
   <meta name="description" content="あなたの生年月日から恋愛タイプを無料診断。お相手の生年月日が分かる場合は、2人のすれ違いやすいポイントも診断します。">
   <title>あなたの恋愛タイプ無料診断</title>
   <link rel="preload" href="assets/gold-compass.jpg" as="image">
@@ -42,28 +41,43 @@
               <span class="person-input__number">01</span>
               <div>
                 <p>あなた</p>
-                <h2>あなたの生年月日</h2>
+                <h2>あなたの生年月日・性別</h2>
               </div>
             </div>
-            <div class="date-selects">
-              <label>
-                <span>年</span>
-                <select id="you-year" name="you-year" autocomplete="bday-year" required>
-                  <option value="">年</option>
-                </select>
-              </label>
-              <label>
-                <span>月</span>
-                <select id="you-month" name="you-month" autocomplete="bday-month" required>
-                  <option value="">月</option>
-                </select>
-              </label>
-              <label>
-                <span>日</span>
-                <select id="you-day" name="you-day" autocomplete="bday-day" required>
-                  <option value="">日</option>
-                </select>
-              </label>
+            <div class="you-input-grid">
+              <div class="date-selects">
+                <label>
+                  <span>年</span>
+                  <select id="you-year" name="you-year" autocomplete="bday-year" required>
+                    <option value="">年</option>
+                  </select>
+                </label>
+                <label>
+                  <span>月</span>
+                  <select id="you-month" name="you-month" autocomplete="bday-month" required>
+                    <option value="">月</option>
+                  </select>
+                </label>
+                <label>
+                  <span>日</span>
+                  <select id="you-day" name="you-day" autocomplete="bday-day" required>
+                    <option value="">日</option>
+                  </select>
+                </label>
+              </div>
+              <fieldset class="gender-select" aria-label="あなたの性別">
+                <legend>性別</legend>
+                <div class="gender-select__options">
+                  <label>
+                    <input type="radio" name="you-gender" value="female" checked>
+                    <span>女性</span>
+                  </label>
+                  <label>
+                    <input type="radio" name="you-gender" value="male">
+                    <span>男性</span>
+                  </label>
+                </div>
+              </fieldset>
             </div>
           </div>
 
