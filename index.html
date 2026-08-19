@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#fbf8f3">
+  <meta name="theme-color" content="#fbf8f3">
+  <meta name="description" content="あなたの生年月日から恋愛タイプを無料診断。お相手の生年月日が分かる場合は、2人のすれ違いやすいポイントも診断します。">
+  <title>あなたの恋愛タイプ無料診断</title>
+  <link rel="preload" href="assets/gold-compass.jpg" as="image">
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="js/early-table.js"></script>
+  <script defer src="js/type-content.js"></script>
+  <script defer src="js/compatibility-data.js"></script>
+  <script defer src="js/diagnosis.js"></script>
+  <script defer src="js/form-state.js"></script>
+  <script defer src="js/phase-two-config.js"></script>
+  <script defer src="js/app.js"></script>
+  <script defer src="js/phase-two.js"></script>
+</head>
+<body>
+  <main>
+    <section class="hero" aria-labelledby="page-title">
+      <div class="hero__inner page-shell">
+        <p class="eyebrow"><span aria-hidden="true">✦</span> みらい占い師が読み解く恋愛タイプ <span aria-hidden="true">✦</span></p>
+
+        <div class="compass-visual" aria-hidden="true">
+          <div class="compass-visual__halo"></div>
+          <div class="compass-visual__crop">
+            <img src="assets/gold-compass.jpg" alt="" width="640" height="360">
+          </div>
+          <span class="compass-visual__needle"></span>
+          <span class="compass-visual__center"></span>
+        </div>
+
+        <h1 id="page-title">あなたの<br><span>恋愛タイプを無料診断</span></h1>
+        <p class="hero__lead">あなたの生年月日だけで診断できます。お相手の生年月日が分かる方は、2人がすれ違いやすいポイントも確認できます。</p>
+
+        <form class="diagnosis-form luxury-card" id="diagnosis-form" novalidate>
+          <div class="person-input" data-person="you">
+            <div class="person-input__heading">
+              <span class="person-input__number">01</span>
+              <div>
+                <p>あなた</p>
+                <h2>あなたの生年月日</h2>
+              </div>
+            </div>
+            <div class="date-selects">
+              <label>
+                <span>年</span>
+                <select id="you-year" name="you-year" autocomplete="bday-year" required>
+                  <option value="">年</option>
+                </select>
+              </label>
+              <label>
+                <span>月</span>
+                <select id="you-month" name="you-month" autocomplete="bday-month" required>
+                  <option value="">月</option>
+                </select>
+              </label>
+              <label>
+                <span>日</span>
+                <select id="you-day" name="you-day" autocomplete="bday-day" required>
+                  <option value="">日</option>
+                </select>
+              </label>
+            </div>
+          </div>
+
+          <div class="ornament-divider" aria-hidden="true"><span>✦</span></div>
+
+          <div class="person-input" data-person="partner">
+            <div class="person-input__heading">
+              <span class="person-input__number">02</span>
+              <div>
+                <p>お相手</p>
+                <h2>お相手の生年月日 <span class="optional-badge">任意</span></h2>
+              </div>
+            </div>
+            <div class="date-selects">
+              <label>
+                <span>年</span>
+                <select id="partner-year" name="partner-year">
+                  <option value="">年</option>
+                </select>
+              </label>
+              <label>
+                <span>月</span>
+                <select id="partner-month" name="partner-month">
+                  <option value="">月</option>
+                </select>
+              </label>
+              <label>
+                <span>日</span>
+                <select id="partner-day" name="partner-day">
+                  <option value="">日</option>
+                </select>
+              </label>
+            </div>
+          </div>
+
+          <p class="partner-note">お相手がいない・生年月日が分からない場合は、空欄のままで診断できます。</p>
+          <p class="form-note">早見表の収録範囲（1954〜2025年）から選択してください。</p>
+          <p class="form-error" id="form-error" role="alert" hidden></p>
+          <button class="gold-button" type="submit">
+            <span>恋愛タイプを診断する</span>
+            <span class="gold-button__arrow" aria-hidden="true">→</span>
+          </button>
+          <p class="privacy-note"><span aria-hidden="true">♢</span> 入力した生年月日は保存されません</p>
+        </form>
+      </div>
+    </section>
+
+    <section class="results" id="results" aria-labelledby="results-title" hidden>
+      <div class="page-shell">
+        <div class="section-heading">
+          <p class="eyebrow">YOUR LOVE COMPASS</p>
+          <h2 id="results-title">診断結果が出ました</h2>
+          <span class="section-heading__line" aria-hidden="true"></span>
+        </div>
+
+        <div class="result-grid" id="result-grid">
+          <article class="result-card luxury-card" id="you-result">
+            <p class="result-card__label">あなたは</p>
+            <div class="result-card__emoji" data-result="emoji" aria-hidden="true"></div>
+            <h3 data-result="name"></h3>
+            <p class="result-card__number" data-result="number"></p>
+            <div class="result-card__copy" data-result="description"></div>
+          </article>
+
+          <div class="result-grid__cross" id="result-cross" aria-hidden="true">×</div>
+
+          <article class="result-card luxury-card" id="partner-result">
+            <p class="result-card__label">お相手は</p>
+            <div class="result-card__emoji" data-result="emoji" aria-hidden="true"></div>
+            <h3 data-result="name"></h3>
+            <p class="result-card__number" data-result="number"></p>
+            <div class="result-card__copy" data-result="description"></div>
+          </article>
+        </div>
+
+        <article class="mismatch-card" id="mismatch-result">
+          <p class="mismatch-card__icon" aria-hidden="true">💔</p>
+          <p class="eyebrow">RELATIONSHIP INSIGHT</p>
+          <h2>2人がすれ違いやすいポイント</h2>
+          <p class="mismatch-card__pair" data-mismatch="heading"></p>
+          <div class="mismatch-card__copy" data-mismatch="description"></div>
+        </article>
+
+        <section class="solo-gift-offer" id="solo-gift-offer" aria-label="恋愛タイプ別無料特典" hidden>
+          <span class="solo-gift-offer__ornament" aria-hidden="true">✦</span>
+
+          <div class="solo-gift-offer__intro" data-gift-mode="solo">
+            <p class="solo-gift-offer__ribbon">公式LINE限定・2大無料特典</p>
+            <p class="eyebrow">YOUR NEXT LOVE STEP</p>
+            <h2 id="solo-gift-title">あなたの恋愛を<br>もっと深く知るために</h2>
+            <p class="solo-gift-offer__lead">
+              <span data-solo-type-name>あなたの恋愛タイプ</span>に合わせた<br>
+              <strong>「恋愛タイプ別ガイドブック」</strong>と<br>
+              <strong>「恋愛タイプ別マスター無料講座」</strong>を<br>
+              プレゼントします！
+            </p>
+          </div>
+
+          <div class="solo-gift-offer__intro" data-gift-mode="pair" hidden>
+            <p class="solo-gift-offer__ribbon">公式LINE限定・2大無料特典</p>
+            <p class="eyebrow">UNDERSTAND YOUR PARTNER</p>
+            <h2 id="pair-gift-title">すれ違ってしまう理由と<br>もっとお相手のことを深く知るために</h2>
+            <p class="solo-gift-offer__lead">
+              <span data-pair-you-type>あなたのタイプ</span>と<br>
+              <span data-pair-partner-type>お相手のタイプ</span>の2人に合わせた<br>
+              <strong>「恋愛タイプ別ガイドブック」</strong>と<br>
+              <strong>「恋愛タイプ別マスター無料講座」</strong>を<br>
+              プレゼントします！
+            </p>
+          </div>
+
+          <div class="solo-gift-cards">
+            <article class="solo-gift-card solo-gift-card--course">
+              <p class="solo-gift-card__badge">まずはこちら</p>
+              <figure class="course-preview" aria-labelledby="masterclass-preview-caption">
+                <div class="course-preview__main">
+                  <img src="assets/masterclass-preview-main.png" alt="恋愛タイプ別マスター無料講座で講師が解説している実際の動画画面" width="1327" height="748" loading="lazy" decoding="async">
+                  <span class="course-preview__duration">動画講義時間 <strong>約30分</strong></span>
+                  <span class="course-preview__play" aria-hidden="true"></span>
+                </div>
+                <p class="course-preview__slides-label"><span>実際の講義スライド</span></p>
+                <div class="course-preview__slides">
+                  <span class="course-preview__slide">
+                    <img src="assets/masterclass-preview-polarization.png" alt="講義スライド「恋愛の二極化」" width="1327" height="749" loading="lazy" decoding="async">
+                  </span>
+                  <span class="course-preview__slide">
+                    <img src="assets/masterclass-preview-tree.png" alt="樹木タイプを解説する実際の講義スライド" width="1325" height="748" loading="lazy" decoding="async">
+                  </span>
+                  <span class="course-preview__slide">
+                    <img src="assets/masterclass-preview-drop.png" alt="雫タイプを解説する実際の講義スライド" width="1333" height="747" loading="lazy" decoding="async">
+                  </span>
+                </div>
+                <figcaption id="masterclass-preview-caption" class="course-preview__proof">
+                  <span class="course-preview__proof-kicker"><strong>2,000人以上</strong>を鑑定してわかった</span>
+                  <strong class="course-preview__proof-headline">
+                    相談者の<span>約8割</span>が知らない<br>
+                    <em>「相手の本質」</em>を読み解く
+                  </strong>
+                  <span class="course-preview__proof-note">言葉だけでは見えない愛情表現や、距離の取り方まで</span>
+                </figcaption>
+              </figure>
+              <p class="solo-gift-card__step">STEP 1</p>
+              <h3>恋愛タイプ別<br>マスター無料講座</h3>
+              <div class="solo-gift-card__mode-copy" data-gift-mode="solo">
+                <p class="solo-gift-card__hook">「どうして恋愛で苦しくなるの？」が<br>自分のタイプからわかる</p>
+                <ul class="solo-gift-card__benefits">
+                  <li>無意識に繰り返しやすい恋愛パターン</li>
+                  <li>愛情の受け取り方・伝え方の違い</li>
+                  <li>自分を責めずに関係を育てるヒント</li>
+                </ul>
+              </div>
+              <div class="solo-gift-card__mode-copy" data-gift-mode="pair" hidden>
+                <p class="solo-gift-card__hook">「なぜ気持ちが伝わらないの？」が<br>2人のタイプからわかる</p>
+                <ul class="solo-gift-card__benefits">
+                  <li>2人の愛情表現と距離感の違い</li>
+                  <li>連絡や会話ですれ違ってしまう理由</li>
+                  <li>関係を育てるための具体的なヒント</li>
+                </ul>
+              </div>
+              <p class="solo-gift-card__delivery">公式LINE登録後、最初にご視聴いただけます</p>
+            </article>
+
+            <article class="solo-gift-card solo-gift-card--guide">
+              <p class="solo-gift-card__badge">講座を見た方へ</p>
+              <figure class="guidebook-preview" aria-labelledby="guidebook-preview-caption">
+                <div class="guidebook-preview__showcase">
+                  <div class="guidebook-preview__cover">
+                    <span class="guidebook-preview__cover-label">実物の表紙を公開</span>
+                    <img src="assets/guidebook-cover.jpg" alt="恋愛タイプ別ガイドブックの実際の表紙" width="1414" height="2000" loading="lazy" decoding="async">
+                  </div>
+                  <div class="guidebook-preview__inside">
+                    <p class="guidebook-preview__inside-label">中身をチラ見せ</p>
+                    <div class="guidebook-preview__pages" aria-hidden="true">
+                      <span class="guidebook-preview__page">
+                        <img src="assets/guidebook-preview-mosaic-01.jpg" alt="" width="640" height="905" loading="lazy" decoding="async">
+                      </span>
+                      <span class="guidebook-preview__page">
+                        <img src="assets/guidebook-preview-mosaic-02.jpg" alt="" width="640" height="905" loading="lazy" decoding="async">
+                      </span>
+                      <span class="guidebook-preview__page">
+                        <img src="assets/guidebook-preview-mosaic-03.jpg" alt="" width="640" height="905" loading="lazy" decoding="async">
+                      </span>
+                      <span class="guidebook-preview__page">
+                        <img src="assets/guidebook-preview-mosaic-04.jpg" alt="" width="640" height="905" loading="lazy" decoding="async">
+                      </span>
+                      <span class="guidebook-preview__page">
+                        <img src="assets/guidebook-preview-mosaic-05.jpg" alt="" width="640" height="905" loading="lazy" decoding="async">
+                      </span>
+                      <span class="guidebook-preview__page">
+                        <img src="assets/guidebook-preview-mosaic-06.jpg" alt="" width="640" height="905" loading="lazy" decoding="async">
+                      </span>
+                    </div>
+                    <div class="guidebook-preview__lock">
+                      <span aria-hidden="true">🔒</span>
+                      <strong>無料講座の視聴後に<br>全ページ公開</strong>
+                    </div>
+                  </div>
+                </div>
+                <figcaption id="guidebook-preview-caption" class="guidebook-preview__caption">
+                  <strong>中身を少しだけ公開…</strong>
+                  <span data-gift-mode="solo">あなたの魅力・恋愛傾向・つまずきやすい場面まで、タイプ別に深掘り。</span>
+                  <span data-gift-mode="pair" hidden>あなたとお相手の恋愛傾向・行動パターン・すれ違う理由まで深掘り。</span>
+                </figcaption>
+              </figure>
+              <p class="solo-gift-card__step">STEP 2</p>
+              <h3>恋愛タイプ別<br>ガイドブック</h3>
+              <div class="solo-gift-card__mode-copy" data-gift-mode="solo">
+                <p class="solo-gift-card__hook">あなただけの“恋愛の取扱説明書”として<br>いつでも振り返れる</p>
+                <ul class="solo-gift-card__benefits">
+                  <li>あなたのタイプの魅力と恋愛での強み</li>
+                  <li>つまずきやすい場面と心の整え方</li>
+                  <li>迷ったときに戻れる実践アドバイス</li>
+                </ul>
+              </div>
+              <div class="solo-gift-card__mode-copy" data-gift-mode="pair" hidden>
+                <p class="solo-gift-card__hook">お相手の本音と行動を読み解く<br>“恋愛の取扱説明書”</p>
+                <ul class="solo-gift-card__benefits">
+                  <li>お相手のタイプが求めている愛情</li>
+                  <li>心を閉ざしやすい場面と接し方</li>
+                  <li>2人の関係で使える実践アドバイス</li>
+                </ul>
+              </div>
+              <p class="solo-gift-card__delivery">無料講座を視聴した後にお渡しします</p>
+            </article>
+          </div>
+
+          <section class="customer-voices" aria-labelledby="customer-voices-title">
+            <p class="eyebrow">REAL VOICES</p>
+            <h3 id="customer-voices-title">ユーザーの声</h3>
+            <p class="customer-voices__intro">鑑定後に届いた、実際のご感想の一部をご紹介します。</p>
+
+            <div class="customer-voices__list">
+              <article class="customer-voice">
+                <div class="customer-voice__icon" aria-hidden="true">“</div>
+                <div class="customer-voice__content">
+                  <p class="customer-voice__meta">ご相談者さまの声 01</p>
+                  <h4>ズバリでびっくりしました！</h4>
+                  <p>彼とのズレもわかり、すっきりです。丁寧に対応していただいてありがとうございました！</p>
+                </div>
+              </article>
+
+              <article class="customer-voice">
+                <div class="customer-voice__icon" aria-hidden="true">“</div>
+                <div class="customer-voice__content">
+                  <p class="customer-voice__meta">ご相談者さまの声 02</p>
+                  <h4>モヤモヤの原因がわかりました</h4>
+                  <p>長い間モヤモヤしてたんですが、原因わかってよかったです！不思議と気持ちが楽になりました。</p>
+                </div>
+              </article>
+
+              <article class="customer-voice">
+                <div class="customer-voice__icon" aria-hidden="true">“</div>
+                <div class="customer-voice__content">
+                  <p class="customer-voice__meta">ご相談者さまの声 03</p>
+                  <h4>彼のこと、めちゃくちゃ当たってました！</h4>
+                  <p>鑑定ありがとうございました！なんでわかるの？とびっくりしました。</p>
+                </div>
+              </article>
+
+              <article class="customer-voice">
+                <div class="customer-voice__icon" aria-hidden="true">“</div>
+                <div class="customer-voice__content">
+                  <p class="customer-voice__meta">ご相談者さまの声 04</p>
+                  <h4>諦めていた彼と、まさかの展開に</h4>
+                  <p>彼とすれ違いが続いてましたが、みらいさんのおかげで彼と仲良くなることができました。諦めていたけど、まさかの展開で驚いてます。本当にありがとうございました！</p>
+                </div>
+              </article>
+
+              <article class="customer-voice">
+                <div class="customer-voice__icon" aria-hidden="true">“</div>
+                <div class="customer-voice__content">
+                  <p class="customer-voice__meta">ご相談者さまの声 05</p>
+                  <h4>自分のことを私は知らなかったんですね</h4>
+                  <p>ずっと孤独感が消えなくて、辛かったのですが、みらいさんに聞いてもらい、自分のことがわかり、驚きました。自分のことを私は知らなかったんですね。自己肯定感も低くて。でも前に進めそうです。また何かある時はよろしくお願いします。</p>
+                </div>
+              </article>
+            </div>
+
+          </section>
+
+          <section class="mirai-profile" aria-labelledby="mirai-profile-title">
+            <p class="eyebrow">ABOUT MIRAI</p>
+            <h3 id="mirai-profile-title">みらい占い師</h3>
+            <p class="mirai-profile__subtitle">恋愛のすれ違いを、タイプからやさしく紐解く</p>
+
+            <div class="mirai-profile__hero">
+              <figure class="mirai-profile__portrait">
+                <div class="mirai-profile__portrait-frame">
+                  <img src="assets/fortune-teller-profile.png" alt="みらい占い師のプロフィール画像" width="634" height="616" loading="lazy" decoding="async">
+                </div>
+                <figcaption>魂透視アドバイザー</figcaption>
+              </figure>
+
+              <div class="mirai-profile__body">
+                <p class="mirai-profile__catch"><strong>2,000人以上</strong>の恋愛に向き合ってきたからこそ、見えることがあります。</p>
+                <p>はじめまして。みらい占い師です。これまで「好きなのに、なぜすれ違うの？」「相手の本音がわからない」という恋愛のお悩みに、一つひとつ向き合ってきました。</p>
+                <p>鑑定を重ねる中で、人には愛し方・不安の感じ方・距離の取り方に共通する傾向があり、大きく<strong>10の恋愛タイプ</strong>に分かれることに気づきました。</p>
+              </div>
+            </div>
+
+            <dl class="mirai-profile__stats" aria-label="みらい占い師の実績">
+              <div>
+                <dt>累計鑑定数</dt>
+                <dd><strong>2,000</strong><span>人以上</span></dd>
+              </div>
+              <div>
+                <dt>リピート率</dt>
+                <dd><strong>98</strong><span>％</span></dd>
+              </div>
+              <div>
+                <dt>恋愛タイプ</dt>
+                <dd><strong>10</strong><span>タイプ</span></dd>
+              </div>
+            </dl>
+
+            <div class="mirai-profile__method">
+              <p class="mirai-profile__method-lead">誰にでも同じ一般論ではなく、<br><strong>あなたとお相手のタイプに合わせたアドバイス</strong>を。</p>
+              <p>すれ違いの理由を知り、今の関係でできる一歩まで、わかりやすくお伝えします。</p>
+              <ol class="mirai-profile__journey">
+                <li><span>1</span><strong>自分の恋愛タイプを知る</strong></li>
+                <li><span>2</span><strong>すれ違いの理由を理解する</strong></li>
+                <li><span>3</span><strong>今できる一歩を見つける</strong></li>
+              </ol>
+            </div>
+
+            <blockquote class="mirai-profile__voices">
+              <p>「当たってる！」<br>「なんでわかるの？」</p>
+              <cite>という驚きの口コミや、再相談の声も多数いただいています。</cite>
+            </blockquote>
+
+            <p class="mirai-profile__closing">自分を責め続ける恋から、自分と相手を理解し、関係を育てられる恋へ。<br>あなたの心が少し軽くなるきっかけをお届けします。</p>
+          </section>
+
+          <section class="gift-flow" aria-labelledby="gift-flow-title">
+            <p class="eyebrow">GIFT FLOW</p>
+            <h3 id="gift-flow-title">2大特典の受け取り方</h3>
+            <ol class="gift-flow__steps">
+              <li>
+                <span class="gift-flow__number">1</span>
+                <div>
+                  <strong>公式LINEを友だち追加</strong>
+                  <p>下のボタンから無料で登録</p>
+                </div>
+              </li>
+              <li>
+                <span class="gift-flow__number">2</span>
+                <div>
+                  <strong>無料講座を視聴</strong>
+                  <p data-gift-mode="solo">あなたの恋愛タイプを深く理解</p>
+                  <p data-gift-mode="pair" hidden>2人の恋愛タイプを深く理解</p>
+                </div>
+              </li>
+              <li>
+                <span class="gift-flow__number">3</span>
+                <div>
+                  <strong>ガイドブックを受け取る</strong>
+                  <p>講座を見た方へLINEでお届け</p>
+                </div>
+              </li>
+            </ol>
+          </section>
+
+          <a class="line-button" id="official-line-cta" href="#" target="_blank" rel="noopener noreferrer">
+            <span class="line-button__mark" aria-hidden="true">LINE</span>
+            <span class="line-button__copy">
+              <small>友だち追加は無料</small>
+              <strong data-link-label></strong>
+            </span>
+            <span class="line-button__arrow" aria-hidden="true">→</span>
+          </a>
+          <p class="solo-gift-offer__note">登録後、まず無料講座をご案内します。視聴後にガイドブックをお届けします。</p>
+        </section>
+
+        <section class="next-stage" id="pair-next-stage" aria-labelledby="next-stage-title" hidden>
+          <span class="next-stage__ornament" aria-hidden="true">✦</span>
+          <h2 id="next-stage-title">では、このすれ違いを<br>どうすればいいのでしょうか？</h2>
+          <div id="future-video-section">
+            <section class="free-course" aria-labelledby="course-title">
+              <div class="free-course__heading">
+                <p class="eyebrow">FREE LOVE MASTERCLASS</p>
+                <p class="free-course__presenter" data-course-presenter></p>
+                <h2 id="course-title" data-course-title></h2>
+                <span class="section-heading__line" aria-hidden="true"></span>
+              </div>
+
+              <div class="free-course__copy" data-course-copy></div>
+
+              <div class="video-gift-banner">
+                <p>🎁 最後まで視聴された方限定</p>
+                <h3>無料特典プレゼント</h3>
+              </div>
+
+              <div class="video-shell" id="video-embed-slot">
+                <div class="video-placeholder">
+                  <span class="video-placeholder__play" aria-hidden="true">▶</span>
+                  <p>動画サービス設定後、ここに講座動画が表示されます。</p>
+                </div>
+              </div>
+
+              <button class="preview-completion-button" id="video-completion-preview" type="button" hidden>
+                視聴完了後の表示を確認する（プレビュー）
+              </button>
+            </section>
+
+            <section class="post-video-content" id="post-video-content" aria-label="動画視聴完了後のご案内" hidden>
+              <article class="gift-unlocked">
+                <p class="gift-unlocked__icon" aria-hidden="true">🎁</p>
+                <p class="eyebrow">SPECIAL GIFT</p>
+                <h2>最後までご視聴いただいた方へ</h2>
+                <p>恋愛タイプ別ガイドブックを無料プレゼント。</p>
+                <a class="gold-button gift-unlocked__link" id="guidebook-link" href="#"></a>
+                <p class="gift-unlocked__status" id="guidebook-receive-status">受け取り方法は後から設定します。</p>
+              </article>
+
+              <section class="personal-bridge" aria-labelledby="personal-bridge-title">
+                <span aria-hidden="true">✦</span>
+                <h2 id="personal-bridge-title">では、あなたと彼の場合は？</h2>
+                <p>同じ恋愛タイプでも、片思い・復縁・音信不通・交際中など、現在のお二人の状況によって向き合い方は変わります。</p>
+              </section>
+
+              <section class="consultation-card luxury-card" aria-labelledby="consultation-title">
+                <div class="consultation-card__heading">
+                  <p class="eyebrow">FREE CONSULTATION</p>
+                  <h2 id="consultation-title">無料個別相談</h2>
+                  <p>無料個別相談で一緒に整理できること</p>
+                </div>
+
+                <ul class="consultation-topics" data-consultation-topics></ul>
+
+                <div class="consultation-bonus">
+                  <h3 data-consultation-bonus-title></h3>
+                  <ul data-consultation-bonus-items hidden></ul>
+                </div>
+
+                <a class="gold-button consultation-card__cta" id="consultation-cta" href="#"></a>
+                <p class="age-notice" data-age-notice></p>
+              </section>
+            </section>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>LOVE TYPE COMPASS <span aria-hidden="true">✦</span></p>
+  </footer>
+</body>
+</html>
