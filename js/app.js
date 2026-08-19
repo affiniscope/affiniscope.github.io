@@ -59,6 +59,10 @@
     };
   }
 
+  function readGender() {
+    return form.elements["you-gender"].value;
+  }
+
   function renderParagraphs(container, paragraphs) {
     container.replaceChildren();
     paragraphs.forEach((paragraph) => {
@@ -98,21 +102,30 @@
     soloTypeName.textContent = diagnosis.type.name + "タイプ";
   }
 
-  function renderPairResult(youDiagnosis, partnerDate) {
+  function renderPairResult(youDiagnosis, partnerDate, youGender) {
     const partnerDiagnosis = LoveDiagnosis.diagnose(
       partnerDate.year,
       partnerDate.month,
       partnerDate.day
     );
-    const compatibilityKey = `${youDiagnosis.type.key}|${partnerDiagnosis.type.key}`;
+    const partnerGender = youGender === "female" ? "male" : "female";
+    const femaleDiagnosis = youGender === "female" ? youDiagnosis : partnerDiagnosis;
+    const maleDiagnosis = youGender === "male" ? youDiagnosis : partnerDiagnosis;
+    const compatibilityKey = `${femaleDiagnosis.type.key}|${maleDiagnosis.type.key}`;
     const compatibility = LOVE_COMPATIBILITY_DATA[compatibilityKey];
     if (!compatibility) throw new Error("該当するすれ違いデータが見つかりません。");
 
-    renderTypeResult("partner-result", partnerDiagnosis, "male");
+    renderTypeResult("partner-result", partnerDiagnosis, partnerGender);
     pairYouType.textContent = youDiagnosis.type.name + "タイプ";
     pairPartnerType.textContent = partnerDiagnosis.type.name + "タイプ";
     document.querySelector('[data-mismatch="heading"]').textContent = compatibility.heading;
-    renderParagraphs(document.querySelector('[data-mismatch="description"]'), compatibility.paragraphs);
+    const paragraphs = youGender === "male"
+      ? compatibility.paragraphs.map((paragraph) => paragraph
+        .replaceAll("あなた", "__FEMALE_PARTNER__")
+        .replaceAll("彼", "あなた")
+        .replaceAll("__FEMALE_PARTNER__", "お相手"))
+      : compatibility.paragraphs;
+    renderParagraphs(document.querySelector('[data-mismatch="description"]'), paragraphs);
   }
 
   function showError(message) {
@@ -128,6 +141,7 @@
     event.preventDefault();
     const you = readDate("you");
     const partner = readDate("partner");
+    const youGender = readGender();
     const partnerState = LoveFormState.getOptionalDateState(partner);
 
     if (!LoveDiagnosis.validateDate(you.year, you.month, you.day)) {
@@ -149,9 +163,9 @@
     try {
       const hasPartner = partnerState === "complete";
       const youDiagnosis = LoveDiagnosis.diagnose(you.year, you.month, you.day);
-      renderTypeResult("you-result", youDiagnosis, "female");
+      renderTypeResult("you-result", youDiagnosis, youGender);
       setSoloOfferType(youDiagnosis);
-      if (hasPartner) renderPairResult(youDiagnosis, partner);
+      if (hasPartner) renderPairResult(youDiagnosis, partner, youGender);
       setResultMode(hasPartner);
 
       results.hidden = false;
