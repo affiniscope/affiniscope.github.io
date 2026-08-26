@@ -74,9 +74,11 @@
 
   function renderTypeResult(containerId, diagnosis, role) {
     const container = document.getElementById(containerId);
-    container.querySelector('[data-result="emoji"]').textContent = diagnosis.type.emoji;
+    const image = container.querySelector('[data-result="image"]');
+    const genderName = role === "female" ? "女性" : "男性";
+    image.src = `assets/type-cards/${diagnosis.type.key}-${role}.webp`;
+    image.alt = `${diagnosis.type.name}タイプ${genderName}のカード`;
     container.querySelector('[data-result="name"]').textContent = `${diagnosis.type.name}タイプ`;
-    container.querySelector('[data-result="number"]').textContent = `診断番号 ${diagnosis.diagnosisNumber}`;
     renderParagraphs(container.querySelector('[data-result="description"]'), diagnosis.type[role]);
   }
 
