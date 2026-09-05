@@ -122,10 +122,7 @@
     pairPartnerType.textContent = partnerDiagnosis.type.name + "タイプ";
     document.querySelector('[data-mismatch="heading"]').textContent = compatibility.heading;
     const paragraphs = youGender === "male"
-      ? compatibility.paragraphs.map((paragraph) => paragraph
-        .replaceAll("あなた", "__FEMALE_PARTNER__")
-        .replaceAll("彼", "あなた")
-        .replaceAll("__FEMALE_PARTNER__", "お相手"))
+      ? compatibility.maleUserParagraphs
       : compatibility.paragraphs;
     renderParagraphs(document.querySelector('[data-mismatch="description"]'), paragraphs);
   }
