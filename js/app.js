@@ -63,11 +63,23 @@
     return form.elements["you-gender"].value;
   }
 
-  function renderParagraphs(container, paragraphs) {
+  function isTypeContentHeading(paragraph) {
+    const text = paragraph.trim();
+    return /タイプ(?:女性|男性)｜あなたの恋愛傾向$/.test(text)
+      || /^[1-9]\.\s/.test(text);
+  }
+
+  function renderParagraphs(container, paragraphs, emphasizeHeadings = false) {
     container.replaceChildren();
     paragraphs.forEach((paragraph) => {
       const element = document.createElement("p");
-      element.textContent = paragraph;
+      if (emphasizeHeadings && isTypeContentHeading(paragraph)) {
+        const heading = document.createElement("strong");
+        heading.textContent = paragraph;
+        element.append(heading);
+      } else {
+        element.textContent = paragraph;
+      }
       container.append(element);
     });
   }
@@ -79,7 +91,7 @@
     image.src = `assets/type-cards/${diagnosis.type.key}-${role}.webp`;
     image.alt = `${diagnosis.type.name}タイプ${genderName}のカード`;
     container.querySelector('[data-result="name"]').textContent = `${diagnosis.type.name}タイプ`;
-    renderParagraphs(container.querySelector('[data-result="description"]'), diagnosis.type[role]);
+    renderParagraphs(container.querySelector('[data-result="description"]'), diagnosis.type[role], true);
   }
 
   function setResultMode(hasPartner) {
