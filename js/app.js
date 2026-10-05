@@ -74,13 +74,103 @@
     });
   }
 
-  // 結果カードに干支（例：甲辰）を保持しておき、60タイプ別の文章を後から差し込めるようにする
+  // 原稿中の **太字** を強調表示に変換する（記号そのものは表示しない）
+  function appendInline(element, text) {
+    text.split(/(\*\*[^*]+\*\*)/).forEach((part) => {
+      if (!part) return;
+      if (/^\*\*[^*]+\*\*$/.test(part)) {
+        const strong = document.createElement("strong");
+        strong.textContent = part.slice(2, -2);
+        element.append(strong);
+      } else {
+        element.append(document.createTextNode(part));
+      }
+    });
+  }
+
+  function appendHeading(container, text) {
+    const heading = document.createElement("h4");
+    heading.className = "kanshi-heading";
+    appendInline(heading, text);
+    container.append(heading);
+  }
+
+  function appendLine(container, line) {
+    const element = document.createElement("p");
+    const lineLink = line.match(/^▼\s*(.+)$/);
+    if (lineLink) {
+      const link = document.createElement("a");
+      link.className = "kanshi-line-link";
+      link.href = LOVE_PHASE_TWO_CONFIG.officialLine.friendUrl;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.textContent = `▼ ${lineLink[1]}`;
+      element.append(link);
+    } else if (/^[①-⑳]/.test(line)) {
+      const strong = document.createElement("strong");
+      strong.className = "kanshi-point";
+      appendInline(strong, line);
+      element.append(strong);
+    } else if (/^□\s*/.test(line)) {
+      // 原稿の「□」チェック項目は記号を文字で出さず、枠付きの項目として表示する
+      element.className = "kanshi-bullet kanshi-check";
+      appendInline(element, line.replace(/^□\s*/, ""));
+    } else {
+      if (line.startsWith("・")) element.className = "kanshi-bullet";
+      appendInline(element, line);
+    }
+    container.append(element);
+  }
+
+  function renderKanshiContent(container, content) {
+    container.replaceChildren();
+    container.classList.add("kanshi-content");
+    if (content.group) {
+      appendHeading(container, content.group.heading);
+      content.group.lines.forEach((line) => appendLine(container, line));
+    }
+    content.sections.forEach((section) => {
+      appendHeading(container, section.heading);
+      section.lines.forEach((line) => appendLine(container, line));
+    });
+  }
+
+  // 六十干支別の原稿があればそれを表示し、未登録の干支は従来の10タイプ本文を表示する。
+  // 干支そのものは内部管理用なので画面には出さない
   function renderTypeResult(containerId, diagnosis, role) {
     const container = document.getElementById(containerId);
+    const name = container.querySelector('[data-result="name"]');
+    const catchCopy = container.querySelector('[data-result="catch"]');
+    const description = container.querySelector('[data-result="description"]');
+    const content = KanshiContent.get(diagnosis.kanshi);
     container.dataset.typeKey = diagnosis.type.key;
     container.dataset.kanshi = diagnosis.kanshi;
-    container.querySelector('[data-result="name"]').textContent = `${diagnosis.type.name}タイプ`;
-    renderParagraphs(container.querySelector('[data-result="description"]'), diagnosis.type[role], true);
+    container.dataset.contentSource = content ? "kanshi" : "legacy";
+
+    if (content && content.name) {
+      // スマホで「タイ／プ」のように途中で改行されないよう、「タイプ」はひとまとまりで折り返す
+      const suffix = document.createElement("span");
+      suffix.className = "result-card__name-suffix";
+      suffix.textContent = "タイプ";
+      name.replaceChildren(document.createTextNode(`「${content.name}」`), suffix);
+      catchCopy.replaceChildren();
+      content.catchCopy.forEach((line, index) => {
+        if (index > 0) catchCopy.append(document.createElement("br"));
+        appendInline(catchCopy, line);
+      });
+      catchCopy.hidden = content.catchCopy.length === 0;
+    } else {
+      name.textContent = `${diagnosis.type.name}タイプ`;
+      catchCopy.textContent = "";
+      catchCopy.hidden = true;
+    }
+
+    if (content) {
+      renderKanshiContent(description, content);
+    } else {
+      description.classList.remove("kanshi-content");
+      renderParagraphs(description, diagnosis.type[role], true);
+    }
   }
 
   function showGiftOffer() {
