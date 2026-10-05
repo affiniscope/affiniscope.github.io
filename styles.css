@@ -700,22 +700,16 @@ h1 span::after {
   letter-spacing: 0.17em;
 }
 
-.result-card__image {
-  display: block;
-  width: min(100%, 360px);
-  height: auto;
-  margin: 18px auto 19px;
-  border: 1px solid rgba(185, 145, 72, 0.42);
-  border-radius: 3px;
-  box-shadow: 0 16px 32px rgba(74, 51, 35, 0.16);
-}
-
 .result-card h3 {
   margin: 0;
   color: var(--wine);
   font-size: 1.75rem;
   font-weight: 500;
   letter-spacing: 0.08em;
+}
+
+.result-card__label + h3 {
+  margin-top: 12px;
 }
 
 .result-card__copy {
@@ -920,6 +914,58 @@ h1 span::after {
 .solo-gift-offer__lead strong {
   color: var(--gold-dark);
   font-weight: 600;
+}
+
+.next-compass__copy {
+  max-width: 520px;
+  margin: 26px auto 0;
+  color: var(--brown-soft);
+  font-size: clamp(0.9rem, 3.5vw, 1rem);
+  line-height: 2.05;
+}
+
+.next-compass__copy p {
+  margin: 0 0 1.1em;
+}
+
+.next-compass__copy p:last-child {
+  margin-bottom: 0;
+}
+
+.next-compass__heading {
+  margin: 36px auto 0;
+  padding: 24px 0;
+  border-top: 1px solid rgba(185, 145, 72, 0.32);
+  border-bottom: 1px solid rgba(185, 145, 72, 0.32);
+  max-width: 520px;
+  color: var(--wine);
+  font-size: clamp(1.25rem, 5.4vw, 1.7rem);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  line-height: 1.7;
+}
+
+.next-compass__heading span {
+  background: linear-gradient(transparent 66%, rgba(231, 200, 202, 0.68) 66%);
+}
+
+.next-compass__quote {
+  color: var(--wine);
+  font-weight: 700;
+}
+
+.next-compass__invite {
+  max-width: 520px;
+  margin: 44px auto 0;
+  color: var(--gold-dark);
+  font-size: clamp(0.95rem, 3.7vw, 1.08rem);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  line-height: 1.95;
+}
+
+.next-compass__invite + .line-button {
+  margin-top: 18px;
 }
 
 .solo-gift-cards {

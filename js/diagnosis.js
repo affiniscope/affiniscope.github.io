@@ -43,15 +43,28 @@
     return type;
   }
 
+  const STEMS = "甲乙丙丁戊己庚辛壬癸";
+  const BRANCHES = "子丑寅卯辰巳午未申酉戌亥";
+
+  // 診断番号1〜60は六十干支の順番（1=甲子、41=甲辰）
+  function getKanshiByNumber(number) {
+    const numeric = Number(number);
+    if (!Number.isInteger(numeric) || numeric < 1 || numeric > 60) {
+      throw new RangeError("診断番号は1〜60で指定してください。");
+    }
+    return STEMS[(numeric - 1) % 10] + BRANCHES[(numeric - 1) % 12];
+  }
+
   function diagnose(year, month, day) {
     if (!validateDate(year, month, day)) throw new RangeError("正しい生年月日を選択してください。");
     const baseNumber = earlyTable.getBaseNumber(Number(year), Number(month));
     const diagnosisNumber = getDiagnosisNumber(baseNumber, Number(day));
     return Object.freeze({
       year: Number(year), month: Number(month), day: Number(day),
-      baseNumber, diagnosisNumber, type: getTypeByNumber(diagnosisNumber)
+      baseNumber, diagnosisNumber, kanshi: getKanshiByNumber(diagnosisNumber),
+      type: getTypeByNumber(diagnosisNumber)
     });
   }
 
-  return Object.freeze({ validateDate, getDiagnosisNumber, getTypeByNumber, diagnose });
+  return Object.freeze({ validateDate, getDiagnosisNumber, getTypeByNumber, getKanshiByNumber, diagnose });
 });

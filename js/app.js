@@ -4,17 +4,9 @@
   const form = document.getElementById("diagnosis-form");
   const errorBox = document.getElementById("form-error");
   const results = document.getElementById("results");
-  const resultGrid = document.getElementById("result-grid");
-  const resultCross = document.getElementById("result-cross");
-  const partnerResult = document.getElementById("partner-result");
-  const mismatchResult = document.getElementById("mismatch-result");
   const giftOffer = document.getElementById("solo-gift-offer");
-  const giftModeElements = document.querySelectorAll("[data-gift-mode]");
-  const soloTypeName = document.querySelector("[data-solo-type-name]");
-  const pairYouType = document.querySelector("[data-pair-you-type]");
-  const pairPartnerType = document.querySelector("[data-pair-partner-type]");
   const pairNextStage = document.getElementById("pair-next-stage");
-  const people = ["you", "partner"];
+  const person = "you";
 
   function addOptions(select, values, suffix) {
     values.forEach((value) => {
@@ -25,7 +17,7 @@
     });
   }
 
-  function updateDays(person) {
+  function updateDays() {
     const year = Number(document.getElementById(`${person}-year`).value);
     const month = Number(document.getElementById(`${person}-month`).value);
     const daySelect = document.getElementById(`${person}-day`);
@@ -42,16 +34,14 @@
       (_, index) => LoveEarlyTable.MAX_YEAR - index
     );
     const months = Array.from({ length: 12 }, (_, index) => index + 1);
-    people.forEach((person) => {
-      addOptions(document.getElementById(`${person}-year`), years, "年");
-      addOptions(document.getElementById(`${person}-month`), months, "月");
-      updateDays(person);
-      document.getElementById(`${person}-year`).addEventListener("change", () => updateDays(person));
-      document.getElementById(`${person}-month`).addEventListener("change", () => updateDays(person));
-    });
+    addOptions(document.getElementById(`${person}-year`), years, "年");
+    addOptions(document.getElementById(`${person}-month`), months, "月");
+    updateDays();
+    document.getElementById(`${person}-year`).addEventListener("change", updateDays);
+    document.getElementById(`${person}-month`).addEventListener("change", updateDays);
   }
 
-  function readDate(person) {
+  function readDate() {
     return {
       year: Number(document.getElementById(`${person}-year`).value),
       month: Number(document.getElementById(`${person}-month`).value),
@@ -84,59 +74,18 @@
     });
   }
 
+  // 結果カードに干支（例：甲辰）を保持しておき、60タイプ別の文章を後から差し込めるようにする
   function renderTypeResult(containerId, diagnosis, role) {
     const container = document.getElementById(containerId);
-    const image = container.querySelector('[data-result="image"]');
-    const genderName = role === "female" ? "女性" : "男性";
-    image.src = `assets/type-cards/${diagnosis.type.key}-${role}.webp`;
-    image.alt = `${diagnosis.type.name}タイプ${genderName}のカード`;
+    container.dataset.typeKey = diagnosis.type.key;
+    container.dataset.kanshi = diagnosis.kanshi;
     container.querySelector('[data-result="name"]').textContent = `${diagnosis.type.name}タイプ`;
     renderParagraphs(container.querySelector('[data-result="description"]'), diagnosis.type[role], true);
   }
 
-  function setResultMode(hasPartner) {
-    resultGrid.classList.toggle("result-grid--solo", !hasPartner);
-    resultCross.hidden = !hasPartner;
-    partnerResult.hidden = !hasPartner;
-    mismatchResult.hidden = !hasPartner;
-    setGiftOfferMode(hasPartner);
-    window.dispatchEvent(new CustomEvent("love-diagnosis-mode", { detail: { hasPartner } }));
-  }
-
-  function setGiftOfferMode(hasPartner) {
-    const mode = hasPartner ? "pair" : "solo";
-    giftModeElements.forEach((element) => {
-      element.hidden = element.dataset.giftMode !== mode;
-    });
+  function showGiftOffer() {
     giftOffer.hidden = false;
-    pairNextStage.hidden = true;
-  }
-
-  function setSoloOfferType(diagnosis) {
-    soloTypeName.textContent = diagnosis.type.name + "タイプ";
-  }
-
-  function renderPairResult(youDiagnosis, partnerDate, youGender) {
-    const partnerDiagnosis = LoveDiagnosis.diagnose(
-      partnerDate.year,
-      partnerDate.month,
-      partnerDate.day
-    );
-    const partnerGender = youGender === "female" ? "male" : "female";
-    const femaleDiagnosis = youGender === "female" ? youDiagnosis : partnerDiagnosis;
-    const maleDiagnosis = youGender === "male" ? youDiagnosis : partnerDiagnosis;
-    const compatibilityKey = `${femaleDiagnosis.type.key}|${maleDiagnosis.type.key}`;
-    const compatibility = LOVE_COMPATIBILITY_DATA[compatibilityKey];
-    if (!compatibility) throw new Error("該当するすれ違いデータが見つかりません。");
-
-    renderTypeResult("partner-result", partnerDiagnosis, partnerGender);
-    pairYouType.textContent = youDiagnosis.type.name + "タイプ";
-    pairPartnerType.textContent = partnerDiagnosis.type.name + "タイプ";
-    document.querySelector('[data-mismatch="heading"]').textContent = compatibility.heading;
-    const paragraphs = youGender === "male"
-      ? compatibility.maleUserParagraphs
-      : compatibility.paragraphs;
-    renderParagraphs(document.querySelector('[data-mismatch="description"]'), paragraphs);
+    if (pairNextStage) pairNextStage.hidden = true;
   }
 
   function showError(message) {
@@ -150,34 +99,18 @@
 
   form.addEventListener("submit", (event) => {
     event.preventDefault();
-    const you = readDate("you");
-    const partner = readDate("partner");
+    const you = readDate();
     const youGender = readGender();
-    const partnerState = LoveFormState.getOptionalDateState(partner);
 
     if (!LoveDiagnosis.validateDate(you.year, you.month, you.day)) {
       showError("あなたの生年月日をすべて正しく選択してください。");
       return;
     }
 
-    if (partnerState === "partial") {
-      showError("お相手の生年月日は、年・月・日をすべて選択するか、空欄にしてください。");
-      return;
-    }
-
-    if (partnerState === "complete"
-      && !LoveDiagnosis.validateDate(partner.year, partner.month, partner.day)) {
-      showError("お相手の生年月日を正しく選択してください。");
-      return;
-    }
-
     try {
-      const hasPartner = partnerState === "complete";
       const youDiagnosis = LoveDiagnosis.diagnose(you.year, you.month, you.day);
       renderTypeResult("you-result", youDiagnosis, youGender);
-      setSoloOfferType(youDiagnosis);
-      if (hasPartner) renderPairResult(youDiagnosis, partner, youGender);
-      setResultMode(hasPartner);
+      showGiftOffer();
 
       results.hidden = false;
       results.classList.remove("results--visible");

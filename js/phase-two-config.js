@@ -32,7 +32,7 @@
     }),
     officialLine: Object.freeze({
       friendUrl: "https://line.me/R/oaMessage/%40457xohef",
-      ctaLabel: "公式LINEで無料講座を受け取る"
+      ctaLabel: "LINEで「開運行動」をさらに詳しく見る"
     }),
     consultation: Object.freeze({
       applicationUrl: "",
