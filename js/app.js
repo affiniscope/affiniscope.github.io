@@ -200,6 +200,7 @@
     try {
       const youDiagnosis = LoveDiagnosis.diagnose(you.year, you.month, you.day);
       renderTypeResult("you-result", youDiagnosis, youGender);
+      if (window.LineBridge) window.LineBridge.prepare(youDiagnosis.kanshi);
       showGiftOffer();
 
       results.hidden = false;

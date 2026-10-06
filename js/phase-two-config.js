@@ -34,6 +34,13 @@
       friendUrl: "https://line.me/R/oaMessage/%40457xohef",
       ctaLabel: "LINEで「開運行動」をさらに詳しく見る"
     }),
+    // 診断タイプをLINEへ引き継ぐ設定。apiBase が空の間は、上の friendUrl へそのまま案内する
+    lineBridge: Object.freeze({
+      apiBase: "",
+      lineId: "@457xohef",
+      // LINEのトーク画面に入力済みで表示される文章。{typeLabel}{code} は自動で置き換わる（診断番号の行は消さないこと）
+      messageTemplate: "【無料診断】開運行動を受け取りたいです\nタイプ：{typeLabel}\n診断番号：{code}\n\n※このまま送信してください"
+    }),
     consultation: Object.freeze({
       applicationUrl: "",
       ctaLabel: "無料個別相談に申し込む",
