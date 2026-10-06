@@ -31,7 +31,7 @@
       linkLabel: "恋愛タイプ別ガイドブックを受け取る"
     }),
     officialLine: Object.freeze({
-      friendUrl: "https://line.me/R/oaMessage/%40457xohef",
+      friendUrl: "https://utage-system.com/line/open/lBYMtXAVpFov",
       ctaLabel: "LINEで「開運行動」をさらに詳しく見る"
     }),
     // 診断タイプをLINEへ引き継ぐ設定。apiBase が空の間は、上の friendUrl へそのまま案内する
