@@ -32,7 +32,11 @@
     }),
     officialLine: Object.freeze({
       friendUrl: "https://utage-system.com/line/open/lBYMtXAVpFov",
-      ctaLabel: "LINEで「開運行動」をさらに詳しく見る"
+      ctaLabel: "LINEで「開運行動」をさらに詳しく見る",
+      // 診断結果本文の最後に出るゴールドのボタンの文言
+      resultCtaLabel: "LINE登録で私の開運行動を見る",
+      // 基本性格のすぐ下のボタンの前に出る一文
+      midCtaLead: "あなたの性質を活かして運を動かすには？"
     }),
     // 診断タイプをLINEへ引き継ぐ設定。apiBase が空の間は、上の friendUrl へそのまま案内する
     lineBridge: Object.freeze({

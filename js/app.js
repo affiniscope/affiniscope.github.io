@@ -95,17 +95,37 @@
     container.append(heading);
   }
 
+  // ゴールドのLINE誘導ボタン（リンク先はUTAGEの新シナリオ登録URL）
+  function createLineCta() {
+    const element = document.createElement("p");
+    const link = document.createElement("a");
+    element.className = "kanshi-cta";
+    link.className = "kanshi-line-link";
+    link.href = LOVE_PHASE_TWO_CONFIG.officialLine.friendUrl;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    link.textContent = LOVE_PHASE_TWO_CONFIG.officialLine.resultCtaLabel;
+    element.append(link);
+    return element;
+  }
+
+  // 基本性格を読み終えたところに置くLINE誘導（短い一文＋ボタン）
+  function appendMidCta(container) {
+    const block = document.createElement("div");
+    const lead = document.createElement("p");
+    block.className = "kanshi-mid-cta";
+    lead.className = "kanshi-mid-cta__lead";
+    lead.textContent = LOVE_PHASE_TWO_CONFIG.officialLine.midCtaLead;
+    block.append(lead, createLineCta());
+    container.append(block);
+  }
+
   function appendLine(container, line) {
     const element = document.createElement("p");
-    const lineLink = line.match(/^▼\s*(.+)$/);
-    if (lineLink) {
-      const link = document.createElement("a");
-      link.className = "kanshi-line-link";
-      link.href = LOVE_PHASE_TWO_CONFIG.officialLine.friendUrl;
-      link.target = "_blank";
-      link.rel = "noopener noreferrer";
-      link.textContent = `▼ ${lineLink[1]}`;
-      element.append(link);
+    if (/^▼\s*/.test(line)) {
+      // 原稿の「▼ LINEで〜」は、ゴールドのCTAボタンとして表示する
+      container.append(createLineCta());
+      return;
     } else if (/^[①-⑳]/.test(line)) {
       const strong = document.createElement("strong");
       strong.className = "kanshi-point";
@@ -128,10 +148,13 @@
     if (content.group) {
       appendHeading(container, content.group.heading);
       content.group.lines.forEach((line) => appendLine(container, line));
+      appendMidCta(container);
     }
-    content.sections.forEach((section) => {
+    content.sections.forEach((section, index) => {
       appendHeading(container, section.heading);
       section.lines.forEach((line) => appendLine(container, line));
+      // 共通の基本性格がないタイプ（海タイプ）は、最初の章のあとに置く
+      if (!content.group && index === 0) appendMidCta(container);
     });
   }
 
