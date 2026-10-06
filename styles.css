@@ -2006,6 +2006,95 @@ h1 span::after {
   line-height: 1.7;
 }
 
+/* プロフィール見出し：「みらい｜あなただけの運を読み解く人」。スマホでは肩書きを2行目にまとめて折り返す */
+.mirai-profile h3.mirai-profile__title {
+  font-size: 1.5rem;
+  line-height: 1.55;
+}
+
+.mirai-profile__title-role {
+  display: inline-block;
+  color: var(--gold-dark);
+  font-size: 0.72em;
+  letter-spacing: 0.06em;
+}
+
+/* プロフィール本文：スマホで「文字の壁」にならないよう、短い段落・広めの行間・要所の強調で読ませる */
+.mirai-profile__body .mirai-profile__hook {
+  margin-top: 18px;
+  color: var(--brown);
+  font-size: clamp(0.95rem, 3.9vw, 1rem);
+  line-height: 1.95;
+  text-align: center;
+  text-wrap: balance;
+}
+
+.mirai-profile__story {
+  max-width: 34em;
+  margin: 30px auto 0;
+  padding: 26px 0 4px;
+  border-top: 1px solid rgba(185, 145, 72, 0.3);
+  color: var(--brown-soft);
+  font-size: clamp(0.95rem, 3.9vw, 1rem);
+  line-height: 2;
+  letter-spacing: 0.02em;
+  text-align: left;
+  text-wrap: pretty;
+}
+
+.mirai-profile__story p {
+  margin: 0 0 1.15em;
+}
+
+.mirai-profile__story strong {
+  color: var(--wine);
+  font-weight: 700;
+}
+
+.mirai-profile__story .mirai-profile__key {
+  margin: 1.5em 0;
+  color: var(--gold-dark);
+  font-family: var(--serif);
+  font-size: 1.08em;
+  font-weight: 700;
+  line-height: 1.8;
+  text-align: center;
+  text-wrap: balance;
+}
+
+.mirai-profile__story .mirai-profile__key strong {
+  color: inherit;
+}
+
+.mirai-profile__story .mirai-profile__wish {
+  margin: 1.6em 0 0;
+  padding-top: 1.2em;
+  border-top: 1px dashed rgba(185, 145, 72, 0.35);
+  color: var(--brown);
+  font-weight: 600;
+  text-align: center;
+  text-wrap: balance;
+}
+
+.sp-only {
+  display: none;
+}
+
+@media (max-width: 480px) {
+  .sp-only {
+    display: inline;
+  }
+
+  .mirai-profile__title-sep {
+    display: none;
+  }
+
+  .mirai-profile__title-role {
+    display: block;
+    margin-top: 2px;
+  }
+}
+
 .mirai-profile__closing {
   margin: 23px auto 0;
   color: var(--brown);
