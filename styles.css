@@ -3061,3 +3061,10 @@ footer span {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* 診断結果の簡易コピー防止：文章の選択・長押しメニューを抑止（スクロールやリンク・ボタン操作には影響しない） */
+#you-result {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}

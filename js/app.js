@@ -237,5 +237,14 @@
     }
   });
 
+  // ---- 診断結果の簡易コピー防止（手軽なコピペを防ぐ補助。リンク・ボタンはそのまま使える） ----
+  const protectedArea = document.getElementById("you-result");
+  ["copy", "cut", "contextmenu", "dragstart", "selectstart"].forEach((type) => {
+    protectedArea.addEventListener(type, (event) => {
+      if (event.target.closest && event.target.closest("a, button, input, select, textarea")) return;
+      event.preventDefault();
+    });
+  });
+
   initializeDateInputs();
 })();
