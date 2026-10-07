@@ -102,8 +102,7 @@
     element.className = "kanshi-cta";
     link.className = "kanshi-line-link";
     link.href = LOVE_PHASE_TWO_CONFIG.officialLine.friendUrl;
-    link.target = "_blank";
-    link.rel = "noopener noreferrer";
+    // 同じタブで開く（Instagram等のアプリ内ブラウザは新しいタブ指定のリンクを開けないことがある）
     link.textContent = LOVE_PHASE_TWO_CONFIG.officialLine.resultCtaLabel;
     element.append(link);
     return element;

@@ -3068,3 +3068,18 @@ footer span {
   user-select: none;
   -webkit-touch-callout: none;
 }
+/* リンク・ボタン・入力欄はコピー防止の対象外（タップ・クリックを確実に通す） */
+#you-result a,
+#you-result button,
+#you-result input,
+#you-result select,
+#you-result textarea {
+  -webkit-touch-callout: default;
+  pointer-events: auto;
+  touch-action: manipulation;
+}
+.kanshi-content .kanshi-line-link {
+  position: relative;
+  z-index: 1;
+  cursor: pointer;
+}
