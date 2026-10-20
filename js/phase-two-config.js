@@ -30,6 +30,10 @@
       receiveUrl: "",
       linkLabel: "恋愛タイプ別ガイドブックを受け取る"
     }),
+    // アクセス・診断・LINEボタンのクリック数の計測先（生年月日は送らない）。空にすると計測しない
+    analytics: Object.freeze({
+      eventsUrl: "https://compass-line-bridge.compass-line-bridge.workers.dev/api/events"
+    }),
     officialLine: Object.freeze({
       friendUrl: "https://utage-system.com/line/open/lBYMtXAVpFov",
       ctaLabel: "LINEで「開運行動」をさらに詳しく見る",

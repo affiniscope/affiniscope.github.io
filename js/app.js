@@ -7,6 +7,7 @@
   const giftOffer = document.getElementById("solo-gift-offer");
   const pairNextStage = document.getElementById("pair-next-stage");
   const person = "you";
+  const track = window.CompassTrack || { send() {} };
 
   function addOptions(select, values, suffix) {
     values.forEach((value) => {
@@ -219,6 +220,7 @@
       return;
     }
 
+    track.send("diagnose_start");
     try {
       const youDiagnosis = LoveDiagnosis.diagnose(you.year, you.month, you.day);
       renderTypeResult("you-result", youDiagnosis, youGender);
@@ -231,6 +233,7 @@
         results.classList.add("results--visible");
         results.scrollIntoView({ behavior: "smooth", block: "start" });
       });
+      track.send("diagnose_complete");
     } catch (error) {
       showError(error.message || "診断中にエラーが発生しました。");
     }
